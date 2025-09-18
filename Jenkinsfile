@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Deploymnet Backend') {
+        stage('Deploymnet backend') {
             steps {
                 sshagent(['ssh-cred']) {
                     sh '''
