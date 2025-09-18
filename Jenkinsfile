@@ -17,7 +17,7 @@ pipeline {
                     sh '''
                     ssh -o StrictHostKeyChecking=no $SERVER "
                         set -e
-                        
+                        unlink -sfn $DEPLOY_BASE/$RELEASE &&
                         # make release dir
                         mkdir -p $DEPLOY_BASE/$RELEASE &&
                         cd $DEPLOY_BASE/$RELEASE &&
