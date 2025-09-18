@@ -6,7 +6,7 @@ pipeline {
             steps {
                 sshagent(['ssh-cred']) {
                     sh '''
-                    ssh -o StrictHostKeyChecking=no root@3.80.69.87 "
+                    ssh -o StrictHostKeyChecking=no root@54.224.61.18 "
                         cd /root/django-todo-react &&
                         pipenv install --deploy &&
                         sudo systemctl daemon-reload &&
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 sshagent(['ssh-cred']) {
                     sh '''
-                    ssh -o StrictHostKeyChecking=no root@3.80.69.87 "
+                    ssh -o StrictHostKeyChecking=no root@54.224.61.18 "
                         cd /root/django-todo-react/frontend &&
                         sudo systemctl daemon-reload &&
                         sudo systemctl restart frontend.service
