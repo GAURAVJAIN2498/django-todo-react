@@ -11,7 +11,7 @@ pipeline {
     }
 
     stages {
-        stage('Deploy Code') {
+        stage('Deployment Code') {
             steps {
                 sshagent(['ssh-cred']) {
                     sh '''
