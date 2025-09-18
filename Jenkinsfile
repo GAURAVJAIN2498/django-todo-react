@@ -9,7 +9,6 @@ pipeline {
                     ssh -o StrictHostKeyChecking=no root@3.80.69.87 "
                         cd /root/django-todo-react &&
                         pipenv install --deploy &&
-                        pipenv run python backend/manage.py migrate &&
                         sudo systemctl daemon-reload &&
                         sudo systemctl restart backend.service
                     "
@@ -24,7 +23,6 @@ pipeline {
                     sh '''
                     ssh -o StrictHostKeyChecking=no root@3.80.69.87 "
                         cd /root/django-todo-react/frontend &&
-                        npm install &&
                         sudo systemctl daemon-reload &&
                         sudo systemctl restart frontend.service
                     "
