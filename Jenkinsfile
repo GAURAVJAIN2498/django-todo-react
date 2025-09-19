@@ -36,7 +36,7 @@ pipeline {
                 }
             }
         }
-
+                    
         stage('Setup Backend') {
             steps {
                 sshagent(['ssh-cred']) {
@@ -61,6 +61,16 @@ pipeline {
                     sh '''
                     ssh -o StrictHostKeyChecking=no $SERVER "
                         set -e
+                        cd /root/django-todo-react/frontend
+
+                        # 1. Remove the broken react-scripts entry
+                        npm uninstall react-scripts
+
+                        # 2. Install the latest stable react-scripts
+                        npm install react-scripts@latest --save
+
+                        # 3. Clean and reinstall node_modules
+                        rm -rf node_modules package-lock.json
 
                         cd $SYMLINK/frontend &&
                         npm install &&
