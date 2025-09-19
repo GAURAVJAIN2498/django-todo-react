@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -25,18 +26,14 @@ pipeline {
                         # clone fresh code
                         git clone -b $BRANCH $REPO . &&
 
-                        # remove old symlink and link new release
-                        rm -rf $DEPLOY_BASE/RELEASE
-                        unlink $SYMLINK || true
-                        ln -s $DEPLOY_BASE/$RELEASE $SYMLINK
-
-
+                        # update symlink to point to new release
+                        ln -sfn $DEPLOY_BASE/$RELEASE $SYMLINK
                     "
                     '''
                 }
             }
         }
-                    
+
         stage('Setup Backend') {
             steps {
                 sshagent(['ssh-cred']) {
@@ -61,18 +58,11 @@ pipeline {
                     sh '''
                     ssh -o StrictHostKeyChecking=no $SERVER "
                         set -e
-                        cd /root/django-todo-react/frontend
-
-                        # 1. Remove the broken react-scripts entry
-                        npm uninstall react-scripts
-
-                        # 2. Install the latest stable react-scripts
-                        npm install react-scripts@latest --save
-
-                        # 3. Clean and reinstall node_modules
-                        rm -rf node_modules package-lock.json
 
                         cd $SYMLINK/frontend &&
+                        npm uninstall react-scripts
+                        npm install react-scripts@latest --save
+                        rm -rf node_modules package-lock.json
                         npm install &&
 
                         sudo systemctl daemon-reload &&
@@ -83,24 +73,23 @@ pipeline {
             }
         }
 
-        stage('Verify Active Release') {
+        stage('Cleanup Old Releases') {
             steps {
                 sshagent(['ssh-cred']) {
                     sh '''
                     ssh -o StrictHostKeyChecking=no $SERVER "
-                    echo 'Cleaning up old releases...'
-                    releases=\$(ls -1tr | grep '^release-')
+                        set -e
 
-                    echo \"All releases:\"
-                    echo \"\$releases\"
+                        cd $DEPLOY_BASE
 
-                    echo \"Deleting old ones...\"
-                    echo \"\$releases\" | head -n -2 | xargs -r rm -rf
+                        echo 'Cleaning up old releases...'
+                        ls -1tr | grep '^release-' | head -n -2 | xargs -r rm -rf
 
-                    echo 'Remaining releases:'
-                    ls -1tr
-                    echo 'Active release is:'
-                    readlink -f $SYMLINK
+                        echo 'Remaining releases:'
+                        ls -1tr
+
+                        echo 'Active release is:'
+                        readlink -f $SYMLINK
                     "
                     '''
                 }
@@ -108,4 +97,3 @@ pipeline {
         }
     }
 }
-
