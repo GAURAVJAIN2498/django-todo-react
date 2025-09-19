@@ -193,8 +193,13 @@ prerequisites
 
 14. now do change in code by git push
   -> as the code commit pipeline run
+    
   -> it can clone the project then create symlink with main project path where i pass application code
+  
   -> from new release unlink the last release
+  
   -> attach with new release by symlink method
+  
   -> from release toproject path and then create and run backend and then create and run frontend
+  
   -> remove the unwanted release
