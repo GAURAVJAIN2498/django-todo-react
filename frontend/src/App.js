@@ -21,7 +21,7 @@ const todoItems = [
   },
   {
     id: 4,
-    title: "Article",
+    title: "Reading",
     description: "Write article on how to use Django with React",
     completed: false,
   },
