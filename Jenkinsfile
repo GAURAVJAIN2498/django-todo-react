@@ -25,8 +25,7 @@ pipeline {
                         # clone fresh code
                         git clone -b $BRANCH $REPO . &&
                         
-                        # remove old symlink and point to new release
-                        ln -s $DEPLOY_BASE/$RELEASE $SYMLINK
+                       ln -sfn $DEPLOY_BASE/$RELEASE $SYMLINK
                     "
                     '''
                 }
