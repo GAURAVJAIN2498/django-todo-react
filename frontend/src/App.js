@@ -9,7 +9,7 @@ const todoItems = [
   },
   {
     id: 2,
-    title: "No Study",
+    title: "Study",
     description: "Read Algebra and History textbook for the upcoming test",
     completed: false,
   },
@@ -21,7 +21,7 @@ const todoItems = [
   },
   {
     id: 4,
-    title: "writing",
+    title: "Reading",
     description: "Write article on how to use Django with React",
     completed: false,
   },
