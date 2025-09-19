@@ -26,12 +26,11 @@ pipeline {
                         git clone -b $BRANCH $REPO . &&
 
                         # remove old symlink and link new release
+                        rm -rf $DEPLOY_BASE/RELEASE
                         unlink $SYMLINK || true
                         ln -s $DEPLOY_BASE/$RELEASE $SYMLINK
 
-                        # show which release is active
-                        echo 'Current release:'
-                        ls -l $SYMLINK
+
                     "
                     '''
                 }
@@ -79,8 +78,19 @@ pipeline {
                 sshagent(['ssh-cred']) {
                     sh '''
                     ssh -o StrictHostKeyChecking=no $SERVER "
-                        echo 'Active release is:'
-                        readlink -f $SYMLINK
+                    echo 'Cleaning up old releases...'
+                    releases=\$(ls -1tr | grep '^release-')
+
+                    echo \"All releases:\"
+                    echo \"\$releases\"
+
+                    echo \"Deleting old ones...\"
+                    echo \"\$releases\" | head -n -2 | xargs -r rm -rf
+
+                    echo 'Remaining releases:'
+                    ls -1tr
+                    echo 'Active release is:'
+                    readlink -f $SYMLINK
                     "
                     '''
                 }
