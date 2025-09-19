@@ -4,7 +4,7 @@ import Modal from "./components/Modal";
 const todoItems = [
   {
     id: 1,
-    title: "Go to shop",
+    title: "Go to market",
     description: "Buy ingredients to prepare dinner",
     completed: true,
   },
