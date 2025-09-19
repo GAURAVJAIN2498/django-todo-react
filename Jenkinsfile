@@ -17,7 +17,7 @@ pipeline {
                     sh '''
                     ssh -o StrictHostKeyChecking=no $SERVER "
                         set -e
-                        
+                        unlink $SYMLINK
                         # make release dir
                         mkdir -p $DEPLOY_BASE/$RELEASE &&
                         cd $DEPLOY_BASE/$RELEASE &&
@@ -26,7 +26,7 @@ pipeline {
                         git clone -b $BRANCH $REPO . &&
                         
                         # remove old symlink and point to new release
-                        unlink $SYMLINK
+                        
                         ln -s $DEPLOY_BASE/$RELEASE $SYMLINK
                     "
                     '''
