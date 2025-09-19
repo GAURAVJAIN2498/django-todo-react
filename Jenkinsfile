@@ -17,7 +17,7 @@ pipeline {
                     sh '''
                     ssh -o StrictHostKeyChecking=no $SERVER "
                         set -e
-                        unlink $SYMLINK
+            
                         # make release dir
                         mkdir -p $DEPLOY_BASE/$RELEASE &&
                         cd $DEPLOY_BASE/$RELEASE &&
@@ -25,7 +25,10 @@ pipeline {
                         # clone fresh code
                         git clone -b $BRANCH $REPO . &&
                         
-                       ln -sfn $DEPLOY_BASE/$RELEASE $SYMLINK
+                        if [ -d $SYMLINK ] && [ ! -L $SYMLINK ]; then
+                            rm -rf $SYMLINK
+                        fi
+                        ln -sfn $DEPLOY_BASE/$RELEASE $SYMLINK
                     "
                     '''
                 }
