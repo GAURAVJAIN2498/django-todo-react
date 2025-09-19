@@ -15,7 +15,7 @@ const todoItems = [
   },
   {
     id: 3,
-    title: "Sammy's books",
+    title: "Gaurav's books",
     description: "Go to library to return Sammy's books",
     completed: true,
   },
