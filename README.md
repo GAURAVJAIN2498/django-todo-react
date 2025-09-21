@@ -2,7 +2,7 @@
 
 #INTRODUCTION
 
-prerequisites
+prerequisites:
 
 1. Install python3, pip v20, Django, npm and Node.js
 ## Manual Process
