@@ -52,7 +52,6 @@ pipeline {
                 }
             }
         }
-
         stage('Setup Frontend') {
             steps {
                 sshagent(['ssh-cred']) {
@@ -60,20 +59,31 @@ pipeline {
                     ssh -o StrictHostKeyChecking=no $SERVER "
                         set -e
 
-                        cd $SYMLINK/frontend &&
+                        # Create frontend release folder
+                        FRONTEND_RELEASE=$FRONTEND/releases/$RELEASE
+                        mkdir -p $FRONTEND_RELEASE
+
+                        # Build React app
+                        cd $SYMLINK/frontend
                         npm uninstall react-scripts
                         npm install react-scripts@latest --save
                         rm -rf node_modules package-lock.json
-                        npm install &&
-                        npm run build &&
-                        cp -r $SYMLINK/frontend/build/* /var/www/frontend/
-                    
-                        sudo systemctl restart nginx
-                    "
-                    '''
-                }
-            }
+                        npm install
+                        npm run build
+
+                        # Move build to release folder
+                        cp -r build/* $FRONTEND_RELEASE/
+
+                        # Update 'current' symlink to latest release
+                        ln -sfn $FRONTEND_RELEASE $FRONTEND/current
+
+                        # Reload Nginx
+                        sudo systemctl reload nginx
+                       "
+            '''
         }
+    }
+}
 
         stage('Cleanup Old Releases') {
             steps {
@@ -92,6 +102,10 @@ pipeline {
 
                         echo 'Active release is:'
                         readlink -f $SYMLINK
+
+                        cd $FRONTEND/releases
+                        ls -1tr | head -n -2 | xargs -r rm -rf
+
                     "
                     '''
                 }
