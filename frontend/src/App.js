@@ -9,7 +9,7 @@ const todoItems = [
   },
   {
     id: 2,
-    title: "Study",
+    title: " No Study",
     description: "Read Algebra and History textbook for the upcoming test",
     completed: false,
   },
