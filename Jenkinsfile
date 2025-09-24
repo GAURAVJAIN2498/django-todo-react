@@ -68,6 +68,7 @@ pipeline {
                         npm install &&
                         npm run build &&
                         cp -r $SYMLINK/frontend/build/* /var/www/frontend/
+                        ln -s /etc/nginx/sites-available/frontend.conf /etc/nginx/sites-enabled/
                         sudo systemctl restart nginx
                     "
                     '''
