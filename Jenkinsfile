@@ -64,7 +64,7 @@ pipeline {
                         npm install react-scripts@latest --save
                         rm -rf node_modules package-lock.json
                         npm install &&
-                        npm run build &&
+                        
 
                         sudo systemctl daemon-reload &&
                         sudo systemctl restart frontend.service
