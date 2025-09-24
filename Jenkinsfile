@@ -64,7 +64,6 @@ pipeline {
                         npm uninstall react-scripts
                         npm install react-scripts@latest --save
                         rm -rf node_modules package-lock.json
-                        mkdir -p $FRONTEND/$RELEASE &&
                         npm install &&
                         npm run build &&
                         cp -r $SYMLINK/frontend/build/* /var/www/frontend/
