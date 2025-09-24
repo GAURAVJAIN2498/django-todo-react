@@ -8,7 +8,8 @@ pipeline {
         RELEASE = "release-${BUILD_NUMBER}"       // new release folder name
         REPO = "https://github.com/GAURAVJAIN2498/django-todo-react.git"
         BRANCH = "main"
-        SERVER = "root@3.80.52.145"              // prod server
+        SERVER = "root@3.80.52.145"        
+        FRONTEND = "/var/www/frontend"       // prod server
     }
 
     stages {
@@ -63,12 +64,11 @@ pipeline {
                         npm uninstall react-scripts
                         npm install react-scripts@latest --save
                         rm -rf node_modules package-lock.json
+                        mkdir -p $FRONTEND/$RELEASE &&
                         npm install &&
                         npm run build &&
-                        
-
-                        sudo systemctl daemon-reload &&
-                        sudo systemctl restart frontend.service
+                        cp -r $SYMLINK/frontend/build/* /var/www/frontend/
+                        sudo systemctl restart nginx
                     "
                     '''
                 }
