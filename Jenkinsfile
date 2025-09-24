@@ -8,7 +8,7 @@ pipeline {
         RELEASE = "release-${BUILD_NUMBER}"       // new release folder name
         REPO = "https://github.com/GAURAVJAIN2498/django-todo-react.git"
         BRANCH = "main"
-        SERVER = "root@54.224.61.18"              // prod server
+        SERVER = "root@3.80.52.145"              // prod server
     }
 
     stages {
