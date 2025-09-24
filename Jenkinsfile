@@ -9,7 +9,8 @@ pipeline {
         REPO = "https://github.com/GAURAVJAIN2498/django-todo-react.git"
         BRANCH = "main"
         SERVER = "root@3.80.52.145"        
-        FRONTEND = "/var/www/frontend"       // prod server
+        FRONTEND = "/var/www/frontend"   
+        FRONTEND_RELEASE= "/var/www/frontend/releases/${RELEASE}"    // prod server
     }
 
     stages {
