@@ -3,7 +3,7 @@ import React, { Component } from "react";
 const todoItems = [
   {
     id: 1,
-    title: "Go to shop",
+    title: "Go to home",
     description: "Buy ingredients to prepare dinner",
     completed: true,
   },
